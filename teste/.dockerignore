@@ -1,0 +1,6 @@
+client.go
+nginx/
+nginx.conf/
+*.md
+.git
+.gitignore
