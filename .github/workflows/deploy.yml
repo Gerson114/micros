@@ -29,40 +29,32 @@ jobs:
           go mod download
           go build -v
 
-      - name: Install Railway CLI
-        run: npm i -g @railway/cli
-
       - name: Deploy MC1 API 1
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: |
-          cd MC1
-          railway up --service mc1-api1
+        uses: bervProject/railway-deploy@main
+        with:
+          railway_token: ${{ secrets.RAILWAY_TOKEN }}
+          service: mc1-api1
 
       - name: Deploy MC1 API 2
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: |
-          cd MC1
-          railway up --service mc1-api2
+        uses: bervProject/railway-deploy@main
+        with:
+          railway_token: ${{ secrets.RAILWAY_TOKEN }}
+          service: mc1-api2
 
       - name: Deploy MC1 API 3
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: |
-          cd MC1
-          railway up --service mc1-api3
+        uses: bervProject/railway-deploy@main
+        with:
+          railway_token: ${{ secrets.RAILWAY_TOKEN }}
+          service: mc1-api3
 
       - name: Deploy MC1 Load Balancer
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: |
-          cd MC1/lb
-          railway up --service mc1-lb
+        uses: bervProject/railway-deploy@main
+        with:
+          railway_token: ${{ secrets.RAILWAY_TOKEN }}
+          service: mc1-lb
 
       - name: Deploy MC2
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: |
-          cd MC2
-          railway up --service mc2
+        uses: bervProject/railway-deploy@main
+        with:
+          railway_token: ${{ secrets.RAILWAY_TOKEN }}
+          service: mc2
