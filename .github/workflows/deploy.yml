@@ -15,34 +15,30 @@ jobs:
       # 1️⃣ Pega o código do repositório
       - uses: actions/checkout@v4
 
-      # 2️⃣ Instala Render CLI
-      - name: Install Render CLI
-        run: npm install -g @render/cli
-
-      # 3️⃣ Login no Render
-      - name: Login Render
-        run: render login --api-key $RENDER_API_KEY
-
-      # 4️⃣ Deploy API instance 1
+      # 2️⃣ Deploy API instance 1
       - name: Deploy API 1
         run: |
-          cd MC1
-          render deploy --service api-instance-1 --wait
+          curl -X POST "https://api.render.com/v1/services/api-instance-1/deploys" \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            -H "Content-Type: application/json"
 
-      # 5️⃣ Deploy API instance 2
+      # 3️⃣ Deploy API instance 2
       - name: Deploy API 2
         run: |
-          cd MC1
-          render deploy --service api-instance-2 --wait
+          curl -X POST "https://api.render.com/v1/services/api-instance-2/deploys" \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            -H "Content-Type: application/json"
 
-      # 6️⃣ Deploy API instance 3
+      # 4️⃣ Deploy API instance 3
       - name: Deploy API 3
         run: |
-          cd MC1
-          render deploy --service api-instance-3 --wait
+          curl -X POST "https://api.render.com/v1/services/api-instance-3/deploys" \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            -H "Content-Type: application/json"
 
-      # 7️⃣ Deploy Load Balancer
+      # 5️⃣ Deploy Load Balancer
       - name: Deploy Load Balancer
         run: |
-          cd MC1/lb
-          render deploy --service load-balancer --wait
+          curl -X POST "https://api.render.com/v1/services/load-balancer/deploys" \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            -H "Content-Type: application/json"
