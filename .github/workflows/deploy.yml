@@ -1,4 +1,4 @@
-name: CI
+name: Deploy Render
 
 on:
   push:
@@ -8,6 +8,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    env:
+      RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
 
     steps:
       - uses: actions/checkout@v4
@@ -17,44 +19,42 @@ jobs:
         with:
           go-version: '1.25'
 
+      # Build MC1
       - name: Build MC1
         run: |
           cd MC1
           go mod download
           go build -v
 
+      # Build MC2
       - name: Build MC2
         run: |
           cd MC2
           go mod download
           go build -v
 
+      # Deploy MC1 APIs via Render API
       - name: Deploy MC1 API 1
-        uses: railwayapp/railway-deploy@v1
-        with:
-          railway_token: ${{ secrets.RAILWAY_TOKEN }}
-          service: mc1-api1
-          
+        run: |
+          curl -X POST https://api.render.com/deploy/srv-XXXXXXXX \
+            -H "Authorization: Bearer $RENDER_API_KEY"
+      
       - name: Deploy MC1 API 2
-        uses: railwayapp/railway-deploy@v1
-        with:
-          railway_token: ${{ secrets.RAILWAY_TOKEN }}
-          service: mc1-api2
-          
+        run: |
+          curl -X POST https://api.render.com/deploy/srv-YYYYYYYY \
+            -H "Authorization: Bearer $RENDER_API_KEY"
+
       - name: Deploy MC1 API 3
-        uses: railwayapp/railway-deploy@v1
-        with:
-          railway_token: ${{ secrets.RAILWAY_TOKEN }}
-          service: mc1-api3
-          
+        run: |
+          curl -X POST https://api.render.com/deploy/srv-ZZZZZZZZ \
+            -H "Authorization: Bearer $RENDER_API_KEY"
+
       - name: Deploy MC1 Load Balancer
-        uses: railwayapp/railway-deploy@v1
-        with:
-          railway_token: ${{ secrets.RAILWAY_TOKEN }}
-          service: mc1-lb
-          
+        run: |
+          curl -X POST https://api.render.com/deploy/srv-LOADBALANCER \
+            -H "Authorization: Bearer $RENDER_API_KEY"
+
       - name: Deploy MC2
-        uses: railwayapp/railway-deploy@v1
-        with:
-          railway_token: ${{ secrets.RAILWAY_TOKEN }}
-          service: mc2
+        run: |
+          curl -X POST https://api.render.com/deploy/srv-AAAAAAA \
+            -H "Authorization: Bearer $RENDER_API_KEY"
