@@ -1,4 +1,4 @@
-name: Deploy Render
+name: Deploy Railway
 
 on:
   push:
@@ -9,36 +9,34 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+      RAILWAY_API_KEY: ${{ secrets.RAILWAY_API_KEY }}
 
     steps:
       # 1️⃣ Pega o código do repositório
       - uses: actions/checkout@v4
 
-      # 2️⃣ Deploy API instance 1
-      - name: Deploy API 1
-        run: |
-          curl -X POST "https://api.render.com/v1/services/api-instance-1/deploys" \
-            -H "Authorization: Bearer $RENDER_API_KEY" \
-            -H "Content-Type: application/json"
+      # 2️⃣ Instala Railway CLI
+      - name: Install Railway CLI
+        run: npm install -g railway
 
-      # 3️⃣ Deploy API instance 2
-      - name: Deploy API 2
-        run: |
-          curl -X POST "https://api.render.com/v1/services/api-instance-2/deploys" \
-            -H "Authorization: Bearer $RENDER_API_KEY" \
-            -H "Content-Type: application/json"
+      # 3️⃣ Login Railway
+      - name: Railway Login
+        run: railway login --apiKey $RAILWAY_API_KEY
 
-      # 4️⃣ Deploy API instance 3
-      - name: Deploy API 3
+      # 4️⃣ Deploy das APIs
+      - name: Deploy APIs
         run: |
-          curl -X POST "https://api.render.com/v1/services/api-instance-3/deploys" \
-            -H "Authorization: Bearer $RENDER_API_KEY" \
-            -H "Content-Type: application/json"
+          SERVICES=("mc1-api1" "mc1-api2" "mc1-api3")
+          for SERVICE in "${SERVICES[@]}"; do
+            echo "🚀 Deploying $SERVICE..."
+            cd mc1
+            railway up --service $SERVICE --detach
+            cd - >/dev/null
+          done
 
-      # 5️⃣ Deploy Load Balancer
+      # 5️⃣ Deploy Load Balancer (opcional)
       - name: Deploy Load Balancer
         run: |
-          curl -X POST "https://api.render.com/v1/services/load-balancer/deploys" \
-            -H "Authorization: Bearer $RENDER_API_KEY" \
-            -H "Content-Type: application/json"
+          echo "🚀 Deploying load-balancer..."
+          cd mc1-lb
+          railway up --service load-balancer --detach
