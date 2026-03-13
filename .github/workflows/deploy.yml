@@ -8,41 +8,11 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
 
     steps:
-      # 1️⃣ Pega o código do repositório
       - uses: actions/checkout@v4
 
-      # 2️⃣ Instala Render CLI
-      - name: Install Render CLI
-        run: npm install -g @render/cli
-
-      # 3️⃣ Login no Render
-      - name: Login Render
-        run: render login --api-key $RENDER_API_KEY
-
-      # 4️⃣ Deploy API instance 1
-      - name: Deploy API 1
+      - name: Trigger Render Deploy
         run: |
-          cd MC1
-          render deploy --service api-instance-1 --wait
-
-      # 5️⃣ Deploy API instance 2
-      - name: Deploy API 2
-        run: |
-          cd MC1
-          render deploy --service api-instance-2 --wait
-
-      # 6️⃣ Deploy API instance 3
-      - name: Deploy API 3
-        run: |
-          cd MC1
-          render deploy --service api-instance-3 --wait
-
-      # 7️⃣ Deploy Load Balancer
-      - name: Deploy Load Balancer
-        run: |
-          cd MC1/lb
-          render deploy --service load-balancer --wait
+          echo "Deploy será feito automaticamente pelo Render via webhook"
+          echo "Commit: ${{ github.sha }}"
