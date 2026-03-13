@@ -33,28 +33,83 @@ jobs:
           go mod download
           go build -v
 
-      # Deploy MC1 APIs via Render API
-      - name: Deploy MC1 API 1
+      # Create or Deploy Services
+      - name: Create/Deploy MC1 API1
         run: |
-          curl -X POST https://api.render.com/deploy/srv-XXXXXXXX \
-            -H "Authorization: Bearer $RENDER_API_KEY"
-      
-      - name: Deploy MC1 API 2
-        run: |
-          curl -X POST https://api.render.com/deploy/srv-YYYYYYYY \
-            -H "Authorization: Bearer $RENDER_API_KEY"
+          curl -X POST https://api.render.com/v1/services \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "name": "mc1-api1",
+              "type": "web_service",
+              "repo": "https://github.com/SEU_USUARIO/SEU_REPO",
+              "branch": "main",
+              "buildCommand": "cd MC1 && go mod download && go build -v",
+              "startCommand": "./MC1-api1",
+              "envVars": [],
+              "plan": "free"
+            }'
 
-      - name: Deploy MC1 API 3
+      - name: Create/Deploy MC1 API2
         run: |
-          curl -X POST https://api.render.com/deploy/srv-ZZZZZZZZ \
-            -H "Authorization: Bearer $RENDER_API_KEY"
+          curl -X POST https://api.render.com/v1/services \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "name": "mc1-api2",
+              "type": "web_service",
+              "repo": "https://github.com/SEU_USUARIO/SEU_REPO",
+              "branch": "main",
+              "buildCommand": "cd MC1 && go mod download && go build -v",
+              "startCommand": "./MC1-api2",
+              "envVars": [],
+              "plan": "free"
+            }'
 
-      - name: Deploy MC1 Load Balancer
+      - name: Create/Deploy MC1 API3
         run: |
-          curl -X POST https://api.render.com/deploy/srv-LOADBALANCER \
-            -H "Authorization: Bearer $RENDER_API_KEY"
+          curl -X POST https://api.render.com/v1/services \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "name": "mc1-api3",
+              "type": "web_service",
+              "repo": "https://github.com/SEU_USUARIO/SEU_REPO",
+              "branch": "main",
+              "buildCommand": "cd MC1 && go mod download && go build -v",
+              "startCommand": "./MC1-api3",
+              "envVars": [],
+              "plan": "free"
+            }'
 
-      - name: Deploy MC2
+      - name: Create/Deploy MC1 Load Balancer
         run: |
-          curl -X POST https://api.render.com/deploy/srv-AAAAAAA \
-            -H "Authorization: Bearer $RENDER_API_KEY"
+          curl -X POST https://api.render.com/v1/services \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "name": "mc1-lb",
+              "type": "web_service",
+              "repo": "https://github.com/SEU_USUARIO/SEU_REPO",
+              "branch": "main",
+              "buildCommand": "cd MC1 && go mod download && go build -v",
+              "startCommand": "./MC1-lb",
+              "envVars": [],
+              "plan": "free"
+            }'
+
+      - name: Create/Deploy MC2
+        run: |
+          curl -X POST https://api.render.com/v1/services \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "name": "mc2",
+              "type": "web_service",
+              "repo": "https://github.com/SEU_USUARIO/SEU_REPO",
+              "branch": "main",
+              "buildCommand": "cd MC2 && go mod download && go build -v",
+              "startCommand": "./MC2",
+              "envVars": [],
+              "plan": "free"
+            }'
