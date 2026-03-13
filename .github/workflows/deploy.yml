@@ -37,19 +37,19 @@ jobs:
       # Deploy MC1 APIs
       - name: Deploy MC1 API 1
         run: |
-          cd sitem/mc1/api1
+          cd sitem/mc1
           railway up --service mc1-api1 --detach
           cd - >/dev/null
 
       - name: Deploy MC1 API 2
         run: |
-          cd sitem/mc1/api2
+          cd sitem/mc1
           railway up --service mc1-api2 --detach
           cd - >/dev/null
 
       - name: Deploy MC1 API 3
         run: |
-          cd sitem/mc1/api3
+          cd sitem/mc1
           railway up --service mc1-api3 --detach
           cd - >/dev/null
 
