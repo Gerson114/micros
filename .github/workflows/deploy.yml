@@ -34,36 +34,30 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
 
-      - name: Verify Railway Login
-        run: railway whoami
+      - name: Link Railway Project
+        run: railway link ${{ 6dcb7a7e-e99b-4340-9117-770288b4226f }}
 
-      # Deploy MC1 APIs
       - name: Deploy MC1 API 1
         run: |
           cd MC1
-          railway up --service mc1-api1 --detach
-          cd - >/dev/null
+          railway up --service mc1-api1
 
       - name: Deploy MC1 API 2
         run: |
           cd MC1
-          railway up --service mc1-api2 --detach
-          cd - >/dev/null
+          railway up --service mc1-api2
 
       - name: Deploy MC1 API 3
         run: |
           cd MC1
-          railway up --service mc1-api3 --detach
-          cd - >/dev/null
+          railway up --service mc1-api3
 
       - name: Deploy MC1 Load Balancer
         run: |
-          cd MC1
-          railway up --service mc1-lb --detach
-          cd - >/dev/null
+          cd MC1/lb
+          railway up --service mc1-lb
 
       - name: Deploy MC2
         run: |
           cd MC2
-          railway up --service mc2 --detach
-          cd - >/dev/null
+          railway up --service mc2
