@@ -43,24 +43,24 @@ jobs:
 
       - name: Deploy MC1 API 2
         run: |
-          cd SISTEM/MC1
+          cd MC1
           railway up --service mc1-api2 --detach
           cd - >/dev/null
 
       - name: Deploy MC1 API 3
         run: |
-          cd SISTEM/MC1
+          cd MC1
           railway up --service mc1-api3 --detach
           cd - >/dev/null
 
       - name: Deploy MC1 Load Balancer
         run: |
-          cd SISTEM/MC1
+          cd MC1
           railway up --service mc1-lb --detach
           cd - >/dev/null
 
       - name: Deploy MC2
         run: |
-          cd SISTEM/MC2
+          cd MC2
           railway up --service mc2 --detach
           cd - >/dev/null
