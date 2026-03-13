@@ -24,8 +24,8 @@ jobs:
         run: |
           MC1_CONTAINERS=("api1" "api2" "api3")
           for CONTAINER in "${MC1_CONTAINERS[@]}"; do
-            echo "🚀 Deploying mc1/$CONTAINER..."
-            cd sitem/mc1/$CONTAINER || { echo "❌ Directory sitem/mc1/$CONTAINER not found"; exit 1; }
+            echo "🚀 Deploying MC1/$CONTAINER..."
+            cd MC1 || { echo "❌ Directory MC1 not found"; exit 1; }
             railway up --service $CONTAINER --detach
             cd - >/dev/null
           done
@@ -33,8 +33,8 @@ jobs:
       # 4️⃣ Deploy do mc2
       - name: Deploy mc2
         run: |
-          echo "🚀 Deploying mc2..."
-          cd sitem/mc2 || { echo "❌ Directory sitem/mc2 not found"; exit 1; }
+          echo "🚀 Deploying MC2..."
+          cd MC2 || { echo "❌ Directory MC2 not found"; exit 1; }
           railway up --service mc2 --detach
           cd - >/dev/null
 
@@ -42,6 +42,6 @@ jobs:
       - name: Deploy Load Balancer
         run: |
           echo "🚀 Deploying load-balancer..."
-          cd sitem/mc1-lb || { echo "❌ Directory sitem/mc1-lb not found"; exit 1; }
+          cd MC1/lb || { echo "❌ Directory MC1/lb not found"; exit 1; }
           railway up --service load-balancer --detach
           cd - >/dev/null
