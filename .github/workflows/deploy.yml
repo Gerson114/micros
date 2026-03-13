@@ -9,7 +9,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     env:
-      RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+      RAILWAY_TOKEN: 6dcb7a7e-e99b-4340-9117-770288b4226f
 
     steps:
       - uses: actions/checkout@v4
@@ -34,8 +34,11 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
 
+      - name: Test Login
+        run: railway whoami
+
       - name: Link Railway Project
-        run: railway link ${{ 6dcb7a7e-e99b-4340-9117-770288b4226f }}
+        run: railway link --project 6dcb7a7e-e99b-4340-9117-770288b4226f
 
       - name: Deploy MC1 API 1
         run: |
