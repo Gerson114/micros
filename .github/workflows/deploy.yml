@@ -19,6 +19,10 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
 
+      # 3️⃣ Login no Railway
+      - name: Authenticate Railway
+        run: railway login --token $RAILWAY_API_KEY
+
       # 3️⃣ Deploy dos containers do mc1
       - name: Deploy mc1 Containers
         run: |
