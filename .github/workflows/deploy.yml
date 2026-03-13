@@ -37,7 +37,7 @@ jobs:
       # Deploy MC1 APIs
       - name: Deploy MC1 API 1
         run: |
-          cd SISTEM/MC1
+          cd MC1
           railway up --service mc1-api1 --detach
           cd - >/dev/null
 
