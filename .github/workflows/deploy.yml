@@ -8,8 +8,6 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    env:
-      RAILWAY_TOKEN: rw_Fe26.2**736c39b438687f1b4a7110b83717f09ce7caccbb482f4d8d64bf57c55f4aea34*37pTe6_bY2noJcUpKx_OUQ*P11zC34tGFcNRX6j_2U4Kk1YHyajA3HfPWqu7wc8IFr-03lA4c-wk1biX2ttPQkY0Isfh_I1Wzpdh0G3nLyBxg*1776020055356*6838271e3627cb46d9902e05f5bdca8b57149ddc0f1f9c8c1c593e5c5fa3817c*uWSMwDvUvA6ZUEtbEVRGIoNBB9DYRUJuSUpjhDUJQWU
 
     steps:
       - uses: actions/checkout@v4
@@ -31,36 +29,32 @@ jobs:
           go mod download
           go build -v
 
-      - name: Install Railway CLI
-        run: npm install -g @railway/cli
-
-      - name: Test Login
-        run: railway whoami
-
-      - name: Link Railway Project
-        run: railway link --project 6dcb7a7e-e99b-4340-9117-770288b4226f
-
       - name: Deploy MC1 API 1
-        run: |
-          cd MC1
-          railway up --service mc1-api1 --detach
-
+        uses: railwayapp/railway-deploy@v1
+        with:
+          railway_token: ${{ secrets.RAILWAY_TOKEN }}
+          service: mc1-api1
+          
       - name: Deploy MC1 API 2
-        run: |
-          cd MC1
-          railway up --service mc1-api2 --detach
-
+        uses: railwayapp/railway-deploy@v1
+        with:
+          railway_token: ${{ secrets.RAILWAY_TOKEN }}
+          service: mc1-api2
+          
       - name: Deploy MC1 API 3
-        run: |
-          cd MC1
-          railway up --service mc1-api3 --detach
-
+        uses: railwayapp/railway-deploy@v1
+        with:
+          railway_token: ${{ secrets.RAILWAY_TOKEN }}
+          service: mc1-api3
+          
       - name: Deploy MC1 Load Balancer
-        run: |
-          cd MC1/lb
-          railway up --service mc1-lb --detach
-
+        uses: railwayapp/railway-deploy@v1
+        with:
+          railway_token: ${{ secrets.RAILWAY_TOKEN }}
+          service: mc1-lb
+          
       - name: Deploy MC2
-        run: |
-          cd MC2
-          railway up --service mc2 --detach
+        uses: railwayapp/railway-deploy@v1
+        with:
+          railway_token: ${{ secrets.RAILWAY_TOKEN }}
+          service: mc2
