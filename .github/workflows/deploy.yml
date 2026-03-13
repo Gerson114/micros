@@ -8,6 +8,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    env:
+      RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
 
     steps:
       - uses: actions/checkout@v4
@@ -33,34 +35,35 @@ jobs:
         run: npm install -g @railway/cli
 
       - name: Test Railway Login
-        run: |
-          RAILWAY_TOKEN=6dcb7a7e-e99b-4340-9117-770288b4226f railway whoami
+        run: railway whoami
 
-      - name: Link Railway Project
-        run: |
-          RAILWAY_TOKEN=6dcb7a7e-e99b-4340-9117-770288b4226f railway link --project 6dcb7a7e-e99b-4340-9117-770288b4226f
-
+      # Deploy MC1 APIs
       - name: Deploy MC1 API 1
         run: |
           cd MC1
-          RAILWAY_TOKEN=6dcb7a7e-e99b-4340-9117-770288b4226f railway up --service mc1-api1
+          railway up --service mc1-api1 --detach
+          cd - >/dev/null
 
       - name: Deploy MC1 API 2
         run: |
           cd MC1
-          RAILWAY_TOKEN=6dcb7a7e-e99b-4340-9117-770288b4226f railway up --service mc1-api2
+          railway up --service mc1-api2 --detach
+          cd - >/dev/null
 
       - name: Deploy MC1 API 3
         run: |
           cd MC1
-          RAILWAY_TOKEN=6dcb7a7e-e99b-4340-9117-770288b4226f railway up --service mc1-api3
+          railway up --service mc1-api3 --detach
+          cd - >/dev/null
 
       - name: Deploy MC1 Load Balancer
         run: |
-          cd MC1/lb
-          RAILWAY_TOKEN=6dcb7a7e-e99b-4340-9117-770288b4226f railway up --service mc1-lb
+          cd MC1
+          railway up --service mc1-lb --detach
+          cd - >/dev/null
 
       - name: Deploy MC2
         run: |
           cd MC2
-          RAILWAY_TOKEN=6dcb7a7e-e99b-4340-9117-770288b4226f railway up --service mc2
+          railway up --service mc2 --detach
+          cd - >/dev/null
