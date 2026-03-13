@@ -8,8 +8,6 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    env:
-      RAILWAY_TOKEN: 6dcb7a7e-e99b-4340-9117-770288b4226f
 
     steps:
       - uses: actions/checkout@v4
@@ -34,33 +32,35 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
 
-      - name: Login Railway
-        run: railway login --token $RAILWAY_TOKEN
+      - name: Test Railway Login
+        run: |
+          RAILWAY_TOKEN=6dcb7a7e-e99b-4340-9117-770288b4226f railway whoami
 
       - name: Link Railway Project
-        run: railway link --project 6dcb7a7e-e99b-4340-9117-770288b4226f
+        run: |
+          RAILWAY_TOKEN=6dcb7a7e-e99b-4340-9117-770288b4226f railway link --project 6dcb7a7e-e99b-4340-9117-770288b4226f
 
       - name: Deploy MC1 API 1
         run: |
           cd MC1
-          railway up --service mc1-api1
+          RAILWAY_TOKEN=6dcb7a7e-e99b-4340-9117-770288b4226f railway up --service mc1-api1
 
       - name: Deploy MC1 API 2
         run: |
           cd MC1
-          railway up --service mc1-api2
+          RAILWAY_TOKEN=6dcb7a7e-e99b-4340-9117-770288b4226f railway up --service mc1-api2
 
       - name: Deploy MC1 API 3
         run: |
           cd MC1
-          railway up --service mc1-api3
+          RAILWAY_TOKEN=6dcb7a7e-e99b-4340-9117-770288b4226f railway up --service mc1-api3
 
       - name: Deploy MC1 Load Balancer
         run: |
           cd MC1/lb
-          railway up --service mc1-lb
+          RAILWAY_TOKEN=6dcb7a7e-e99b-4340-9117-770288b4226f railway up --service mc1-lb
 
       - name: Deploy MC2
         run: |
           cd MC2
-          railway up --service mc2
+          RAILWAY_TOKEN=6dcb7a7e-e99b-4340-9117-770288b4226f railway up --service mc2
