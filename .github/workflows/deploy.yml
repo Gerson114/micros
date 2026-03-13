@@ -34,8 +34,8 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
 
-      - name: Test Login
-        run: railway whoami
+      - name: Login Railway
+        run: railway login --token $RAILWAY_TOKEN
 
       - name: Link Railway Project
         run: railway link --project 6dcb7a7e-e99b-4340-9117-770288b4226f
