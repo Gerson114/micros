@@ -15,15 +15,11 @@ jobs:
       # 1️⃣ Pega o código do repositório
       - uses: actions/checkout@v4
 
-      # 2️⃣ Instala Railway CLI
+      # 2️⃣ Instala a nova Railway CLI
       - name: Install Railway CLI
-        run: npm install -g railway
+        run: npm install -g @railway/cli
 
-      # 3️⃣ Login Railway
-      - name: Railway Login
-        run: railway login --apiKey $RAILWAY_API_KEY
-
-      # 4️⃣ Deploy das APIs
+      # 3️⃣ Deploy das APIs
       - name: Deploy APIs
         run: |
           SERVICES=("mc1-api1" "mc1-api2" "mc1-api3")
@@ -34,7 +30,7 @@ jobs:
             cd - >/dev/null
           done
 
-      # 5️⃣ Deploy Load Balancer (opcional)
+      # 4️⃣ Deploy Load Balancer (opcional)
       - name: Deploy Load Balancer
         run: |
           echo "🚀 Deploying load-balancer..."
