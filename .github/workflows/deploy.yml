@@ -15,24 +15,33 @@ jobs:
       # 1️⃣ Pega o código do repositório
       - uses: actions/checkout@v4
 
-      # 2️⃣ Instala a nova Railway CLI
+      # 2️⃣ Instala a Railway CLI
       - name: Install Railway CLI
         run: npm install -g @railway/cli
 
-      # 3️⃣ Deploy das APIs
-      - name: Deploy APIs
+      # 3️⃣ Deploy dos containers do mc1
+      - name: Deploy mc1 Containers
         run: |
-          SERVICES=("mc1-api1" "mc1-api2" "mc1-api3")
-          for SERVICE in "${SERVICES[@]}"; do
-            echo "🚀 Deploying $SERVICE..."
-            cd mc1
-            railway up --service $SERVICE --detach
+          MC1_CONTAINERS=("api1" "api2" "api3")
+          for CONTAINER in "${MC1_CONTAINERS[@]}"; do
+            echo "🚀 Deploying mc1/$CONTAINER..."
+            cd sitem/mc1/$CONTAINER || { echo "❌ Directory sitem/mc1/$CONTAINER not found"; exit 1; }
+            railway up --service $CONTAINER --detach
             cd - >/dev/null
           done
 
-      # 4️⃣ Deploy Load Balancer (opcional)
+      # 4️⃣ Deploy do mc2
+      - name: Deploy mc2
+        run: |
+          echo "🚀 Deploying mc2..."
+          cd sitem/mc2 || { echo "❌ Directory sitem/mc2 not found"; exit 1; }
+          railway up --service mc2 --detach
+          cd - >/dev/null
+
+      # 5️⃣ Deploy do Load Balancer (opcional)
       - name: Deploy Load Balancer
         run: |
           echo "🚀 Deploying load-balancer..."
-          cd mc1-lb
+          cd sitem/mc1-lb || { echo "❌ Directory sitem/mc1-lb not found"; exit 1; }
           railway up --service load-balancer --detach
+          cd - >/dev/null
