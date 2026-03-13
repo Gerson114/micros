@@ -29,22 +29,40 @@ jobs:
           go mod download
           go build -v
 
-      - name: Deploy MC1
+      - name: Install Railway CLI
+        run: npm i -g @railway/cli
+
+      - name: Deploy MC1 API 1
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
-          if [ -z "$RAILWAY_TOKEN" ]; then
-            echo "❌ RAILWAY_TOKEN não está configurado!"
-            exit 1
-          fi
-          npm i -g @railway/cli
-          railway whoami
-          cd MC1/api1 && railway up --service api1
-          cd ../api2 && railway up --service api2
-          cd ../api3 && railway up --service api3
+          cd MC1
+          railway up --service mc1-api1
+
+      - name: Deploy MC1 API 2
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          cd MC1
+          railway up --service mc1-api2
+
+      - name: Deploy MC1 API 3
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          cd MC1
+          railway up --service mc1-api3
+
+      - name: Deploy MC1 Load Balancer
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          cd MC1/lb
+          railway up --service mc1-lb
 
       - name: Deploy MC2
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
-          railway up --service mc2 -d MC2
+          cd MC2
+          railway up --service mc2
