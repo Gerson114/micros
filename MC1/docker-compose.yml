@@ -1,0 +1,36 @@
+services:
+  mc1_1:
+    build: .
+    expose:
+      - "8080"
+    networks:
+      - ee_network
+
+  mc1_2:
+    build: .
+    expose:
+      - "8080"
+    networks:
+      - ee_network
+
+  mc1_3:
+    build: .
+    expose:
+      - "8080"
+    networks:
+      - ee_network
+
+  nginx:
+    build: ./lb
+    ports:
+      - "80:80"
+    depends_on:
+      - mc1_1
+      - mc1_2
+      - mc1_3
+    networks:
+      - ee_network
+
+networks:
+  ee_network:
+    external: true
