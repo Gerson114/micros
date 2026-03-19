@@ -7,7 +7,7 @@ import (
 )
 
 func Consumer(jobs chan<- amqp091.Delivery) {
-	conn, err := amqp091.Dial("amqp://admin:admin@rabbitmq:5672/")
+	conn, err := amqp091.Dial("amqps://dftnstit:fgQhLZZg5X-dDBR3egLRWdBOSdMWv4xP@woodpecker.rmq.cloudamqp.com/dftnstit")
 	if err != nil {
 		log.Fatal(err)
 	}

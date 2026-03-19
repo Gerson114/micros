@@ -19,7 +19,7 @@ func InitRabbit() error {
 
 	// Retry connection até 10 vezes
 	for i := 0; i < 10; i++ {
-		Conn, err = amqp091.Dial("amqp://admin:admin@rabbitmq:5672/")
+		Conn, err = amqp091.Dial("amqps://dftnstit:fgQhLZZg5X-dDBR3egLRWdBOSdMWv4xP@woodpecker.rmq.cloudamqp.com/dftnstit")
 		if err == nil {
 			break
 		}
@@ -65,7 +65,7 @@ func reconnect() error {
 	var err error
 	for i := 0; i < 5; i++ {
 		if Conn == nil || Conn.IsClosed() {
-			Conn, err = amqp091.Dial("amqp://admin:admin@rabbitmq:5672/")
+			Conn, err = amqp091.Dial("amqps://dftnstit:fgQhLZZg5X-dDBR3egLRWdBOSdMWv4xP@woodpecker.rmq.cloudamqp.com/dftnstit")
 			if err != nil {
 				log.Printf("Tentativa %d de reconexão falhou: %v", i+1, err)
 				time.Sleep(time.Second)
