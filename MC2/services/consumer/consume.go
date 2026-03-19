@@ -1,6 +1,7 @@
 package consumer
 
 import (
+	"api-go/metrics"
 	"log"
 
 	"github.com/rabbitmq/amqp091-go"
@@ -50,5 +51,7 @@ func Consumer(jobs chan<- amqp091.Delivery) {
 	// 🔥 só repassa os dados
 	for msg := range msgs {
 		jobs <- msg
+
+		metrics.QueueSize.Set(float64(len(jobs)))
 	}
 }

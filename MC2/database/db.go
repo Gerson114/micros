@@ -15,7 +15,7 @@ func ConnectDB() *pgxpool.Pool {
 	defer cancel()
 
 	var err error
-	Pool, err = pgxpool.New(ctx, "postgres://usuario:senha@db:5432/meubanco?sslmode=disable")
+	Pool, err = pgxpool.New(ctx, "postgresql://postgres.bpjzvtzlvynydvftbbkr:mGf53M.fLXAw9$f@aws-1-us-east-1.pooler.supabase.com:6543/postgres")
 	if err != nil {
 		log.Fatal("Erro ao criar pool:", err)
 	}
